@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Attendance Upload</title>
+
+<link rel="stylesheet"
+      href="css/style.css">
+
+      <link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
+</head>
+
+<body>
+
+    <!-- Hamburger -->
+
+<div class="menu-btn" onclick="toggleSidebar()">
+    <i class="fas fa-bars"></i>
+</div>
+
+<!-- Sidebar -->
+
+<div class="sidebar" id="sidebar">
+
+<h3>Data Entry</h3>
+
+<ul>
+
+<li onclick="location.href='chairperson.html'">
+Home
+</li>
+
+<li onclick="location.href='cgpaUpload.html'">
+CGPA
+</li>
+
+<li onclick="location.href='internalUpload.html'">
+Internals
+</li>
+
+<li onclick="location.href='semesterUpload.html'">
+Semester
+</li>
+
+<li onclick="location.href='aptitudeUpload.html'">
+Aptitude
+</li>
+
+<li onclick="location.href='technicalUpload.html'">
+Technical Skill
+</li>
+
+<li onclick="location.href='internshipUpload.html'">
+Internship
+</li>
+
+<li onclick="location.href='softskillUpload.html'">
+Soft Skill
+</li>
+
+<li onclick="location.href='engagementUpload.html'">
+Engagement
+</li>
+
+<li onclick="location.href='placementUpload.html'">
+Placement
+</li>
+
+</ul>
+
+</div>
+
+<header>
+
+    <h2>Attendance Upload</h2>
+
+</header>
+
+<div class="container" id="dashboardContainer">
+
+    <div class="card">
+
+        <h3>Download Template</h3>
+
+        <button onclick="downloadAttendanceTemplate()">
+
+            Download Template
+
+        </button>
+
+    </div>
+
+    <div class="card">
+
+        <h3>Upload Filled Excel</h3>
+
+        <input
+            type="file"
+            id="attendanceFile"
+            accept=".xlsx">
+
+        <br><br>
+
+        <button onclick="uploadAttendanceData()">
+
+            Upload Attendance
+
+        </button>
+
+    </div>
+
+</div>
+
+<script src="js/config.js"></script>
+
+<script>
+
+function downloadAttendanceTemplate(){
+
+    const sampleData = [
+
+        {
+
+            RollNo : "22UCS113",
+
+            Percentage : 92
+
+        },
+
+        {
+
+            RollNo : "22UCS114",
+
+            Percentage : 88
+
+        }
+
+    ];
+
+    const ws =
+        XLSX.utils.json_to_sheet(
+            sampleData
+        );
+
+    const wb =
+        XLSX.utils.book_new();
+
+    XLSX.utils.book_append_sheet(
+
+        wb,
+
+        ws,
+
+        "ATTENDANCE"
+
+    );
+
+    XLSX.writeFile(
+
+        wb,
+
+        "Attendance_Template.xlsx"
+
+    );
+
+}
+
+async function uploadAttendanceData(){
+
+    const file =
+        document.getElementById(
+            "attendanceFile"
+        ).files[0];
+
+    if(!file){
+
+        alert(
+            "Please select a file"
+        );
+
+        return;
+
+    }
+
+    const reader =
+        new FileReader();
+
+    reader.onload =
+        async function(e){
+
+        const workbook =
+            XLSX.read(
+
+                e.target.result,
+
+                {
+
+                    type : "binary"
+
+                }
+
+            );
+
+        const sheet =
+            workbook.Sheets[
+                workbook.SheetNames[0]
+            ];
+
+        const data =
+            XLSX.utils.sheet_to_json(
+                sheet
+            );
+
+        try{
+
+            const response =
+                await fetch(
+
+                    API_URL,
+
+                    {
+
+                        method : "POST",
+
+                        body : JSON.stringify({
+
+                            action :
+                                "uploadAttendance",
+
+                            data :
+                                data
+
+                        })
+
+                    }
+
+                );
+
+            const result =
+                await response.json();
+
+            alert(
+                result.message
+            );
+
+        }
+        catch(error){
+
+            console.error(error);
+
+            alert(
+                "Upload Failed"
+            );
+
+        }
+
+    };
+
+    reader.readAsBinaryString(
+        file
+    );
+
+}
+
+function toggleSidebar(){
+
+    document
+    .getElementById("sidebar")
+    .classList
+    .toggle("active");
+
+    document
+    .getElementById("dashboardContainer")
+    .classList
+    .toggle("shift");
+
+}
+
+</script>
+
+</body>
+
+</html>
