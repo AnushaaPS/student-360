@@ -136,7 +136,10 @@ function loadStudentDashboard(student){
       RADAR CHART
     ********************************************/
 
-    renderRadarChart(indices);
+    createRadarChart(
+    "radarChart",
+    indices
+);
 
 
 
@@ -209,123 +212,6 @@ function loadStudentDashboard(student){
     );
 
 }
-
-
-
-/************************************************
-  RADAR CHART
-************************************************/
-
-function renderRadarChart(indices){
-
-    const ctx =
-        document.getElementById(
-            "radarChart"
-        );
-
-    new Chart(ctx, {
-
-        type : "radar",
-
-        data : {
-
-            labels : [
-
-                "Academic",
-
-                "Domain",
-
-                "Aptitude",
-
-                "Technical",
-
-                "Soft Skills",
-
-                "Internship",
-
-                "Attendance",
-
-                "Engagement"
-
-            ],
-
-            datasets : [{
-
-                label :
-                    "360° Analysis",
-
-                data : [
-
-                    indices.Academic,
-
-                    indices.Domain,
-
-                    indices.Aptitude,
-
-                    indices.Technical,
-
-                    indices.SoftSkill,
-
-                    indices.Internship,
-
-                    indices.Attendance,
-
-                    indices.Engagement
-
-                ],
-
-                backgroundColor :
-                    "rgba(56,189,248,0.2)",
-
-                borderColor :
-                    "#38bdf8",
-
-                borderWidth : 2
-
-            }]
-
-        },
-
-        options : {
-
-            responsive : true,
-
-            scales : {
-
-                r : {
-
-                    min : 0,
-
-                    max : 100,
-
-                    ticks : {
-
-                        color : "white"
-
-                    },
-
-                    pointLabels : {
-
-                        color : "white"
-
-                    },
-
-                    grid : {
-
-                        color : "#334155"
-
-                    }
-
-                }
-
-            }
-
-        }
-
-    });
-
-}
-
 
 
 /************************************************
