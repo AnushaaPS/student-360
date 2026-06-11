@@ -1927,32 +1927,50 @@ canvas{
 .student-modal{
     display:none;
     position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,.85);
-    z-index:99999;
+    inset:0;
+    background:rgba(0,0,0,.88);
+    z-index:999999;
     overflow-y:auto;
+    padding:20px;
 }
 
 .student-modal-content{
     width:95%;
     max-width:1100px;
-    margin:80px auto 30px;
+    margin:20px auto;
     background:#071224;
-    border-radius:18px;
-    padding:20px;
-    position:relative;
+    border-radius:20px;
+    padding:25px;
     border:1px solid rgba(56,189,248,.2);
 }
 
 .close-modal{
-    position:absolute;
-    top:15px;
-    right:15px;
-    font-size:30px;
-    color:#38bdf8;
+    position:sticky;
+    top:10px;
+    float:right;
+    font-size:32px;
     cursor:pointer;
-    z-index:100000;
+    color:#38bdf8;
+    z-index:999999;
+}
+
+@media(max-width:768px){
+
+.dashboard-header{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    padding:20px 70px 20px 20px;
+    text-align:center;
+}
+
+.dashboard-header h2{
+    font-size:2rem;
+}
+
+.logout-btn{
+    width:180px;
+    margin:auto;
+}
+
 }
