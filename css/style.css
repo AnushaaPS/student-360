@@ -1993,3 +1993,225 @@ canvas{
     grid-template-columns:1fr !important;
     gap:15px;
 }
+/* ═══════════════════════════════════════════════════
+   DEFINITIVE MODAL FIX — overrides all previous rules
+═══════════════════════════════════════════════════ */
+
+/* Backdrop */
+.student-modal{
+    display: none !important;
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 999999 !important;
+    background: rgba(2, 8, 20, 0.92) !important;
+    backdrop-filter: blur(6px) !important;
+    -webkit-backdrop-filter: blur(6px) !important;
+    overflow-y: auto !important;
+    padding: 0 !important;
+    /* flex layout so content is truly centred */
+    align-items: flex-start !important;
+    justify-content: center !important;
+}
+
+/* When JS sets display:flex / display:block to open it */
+.student-modal[style*="display:block"],
+.student-modal[style*="display: block"],
+.student-modal[style*="display:flex"],
+.student-modal[style*="display: flex"]{
+    display: flex !important;
+}
+
+/* Modal box */
+.student-modal-content{
+    position: relative !important;
+    width: 92% !important;
+    max-width: 860px !important;
+    margin: 60px auto 40px !important;   /* 60px top clears the header */
+    background: #071224 !important;
+    border: 1px solid rgba(56,189,248,0.25) !important;
+    border-radius: 20px !important;
+    padding: 32px 28px 28px !important;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(56,189,248,0.08) inset !important;
+    overflow: visible !important;
+    /* top accent line */
+    isolation: isolate;
+}
+
+.student-modal-content::before{
+    content: '';
+    position: absolute;
+    top: 0; left: 8%; right: 8%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(56,189,248,0.6), transparent);
+    border-radius: 20px 20px 0 0;
+}
+
+/* Close button — always visible, top-right of the modal box */
+.close-modal{
+    position: absolute !important;
+    top: 14px !important;
+    right: 18px !important;
+    float: none !important;
+    width: 36px !important;
+    height: 36px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: rgba(56,189,248,0.08) !important;
+    border: 1px solid rgba(56,189,248,0.20) !important;
+    border-radius: 10px !important;
+    color: #38bdf8 !important;
+    font-size: 20px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    z-index: 10 !important;
+    transition: background 0.15s ease, box-shadow 0.15s ease !important;
+    line-height: 1 !important;
+}
+
+.close-modal:hover{
+    background: rgba(56,189,248,0.18) !important;
+    box-shadow: 0 0 16px rgba(56,189,248,0.25) !important;
+    color: #fff !important;
+}
+
+/* Mobile adjustments */
+@media(max-width: 600px){
+
+    .student-modal-content{
+        width: 96% !important;
+        margin: 12px auto 20px !important;
+        padding: 24px 16px 20px !important;
+        border-radius: 16px !important;
+    }
+
+    .close-modal{
+        top: 10px !important;
+        right: 12px !important;
+    }
+}
+
+/* ═══════════════════════════════════════════════════
+   DEFINITIVE SIDEBAR FIX
+   Sidebar must ALWAYS be a direct child of <body>,
+   positioned fixed. This CSS works regardless of
+   where the element sits in the DOM.
+═══════════════════════════════════════════════════ */
+
+.sidebar{
+    position: fixed !important;
+    top: 0 !important;
+    right: -280px !important;
+    width: 260px !important;
+    height: 100vh !important;
+    background: rgba(4,13,26,0.98) !important;
+    backdrop-filter: blur(24px) !important;
+    -webkit-backdrop-filter: blur(24px) !important;
+    border-left: 1px solid rgba(56,189,248,0.15) !important;
+    z-index: 999998 !important;
+    overflow-y: auto !important;
+    padding-top: 70px !important;
+    transition: right 0.35s cubic-bezier(0.22,1,0.36,1) !important;
+    box-shadow: -8px 0 40px rgba(0,0,0,0.55) !important;
+    /* Reset any inherited layout from parent (e.g. header flex) */
+    display: block !important;
+    flex: none !important;
+    align-self: auto !important;
+}
+
+.sidebar.active{
+    right: 0 !important;
+}
+
+.sidebar h3{
+    padding: 16px 20px !important;
+    font-size: 0.75rem !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.12em !important;
+    color: #38bdf8 !important;
+    border-bottom: 1px solid rgba(56,189,248,0.12) !important;
+    margin: 0 !important;
+}
+
+.sidebar ul{
+    list-style: none !important;
+    padding: 8px 0 !important;
+    margin: 0 !important;
+}
+
+.sidebar ul li{
+    padding: 13px 20px !important;
+    cursor: pointer !important;
+    border-bottom: 1px solid rgba(56,189,248,0.05) !important;
+    color: #94a3b8 !important;
+    font-size: 0.9rem !important;
+    font-weight: 500 !important;
+    transition: background 0.15s ease, color 0.15s ease, padding-left 0.15s ease !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    border-left: 2px solid transparent !important;
+}
+
+.sidebar ul li:hover{
+    background: rgba(56,189,248,0.08) !important;
+    color: #f0f8ff !important;
+    padding-left: 28px !important;
+    border-left-color: #38bdf8 !important;
+}
+
+/* Menu button — always fixed top-right, always on top */
+.menu-btn{
+    position: fixed !important;
+    top: 14px !important;
+    right: 18px !important;
+    width: 44px !important;
+    height: 44px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: rgba(56,189,248,0.10) !important;
+    border: 1px solid rgba(56,189,248,0.20) !important;
+    border-radius: 10px !important;
+    color: #38bdf8 !important;
+    font-size: 18px !important;
+    cursor: pointer !important;
+    z-index: 999999 !important;
+    backdrop-filter: blur(8px) !important;
+    transition: background 0.15s ease, box-shadow 0.2s ease !important;
+    /* Never collapse inside a flex header */
+    flex: none !important;
+    line-height: 1 !important;
+}
+
+.menu-btn:hover{
+    background: rgba(56,189,248,0.20) !important;
+    box-shadow: 0 0 18px rgba(56,189,248,0.22) !important;
+}
+
+/* Push content left when sidebar opens on desktop */
+@media(min-width: 769px){
+    .container.shift{
+        margin-right: 260px !important;
+        width: calc(100% - 260px) !important;
+        transition: margin-right 0.35s ease, width 0.35s ease !important;
+    }
+}
+
+/* Header must leave room for the fixed menu-btn */
+header,
+.dashboard-header{
+    padding-right: 72px !important;
+}
+
+@media(max-width: 768px){
+    .sidebar{
+        width: 82vw !important;
+        max-width: 300px !important;
+        right: -85vw !important;
+    }
+    .sidebar.active{
+        right: 0 !important;
+    }
+}
