@@ -668,10 +668,6 @@ function toggleSidebar(){
     document
     .getElementById("sidebar")
     .classList.toggle("active");
-
-    document
-    .getElementById("chairpersonDashboard")
-    .classList.toggle("shift");
 }
 
 function renderChairpersonTooltips(
@@ -1168,4 +1164,17 @@ function closeStudentModal(){
     .style.display =
         "none";
 
+}
+
+window.onclick = function(event){
+
+    const modal =
+        document.getElementById(
+            "studentDetailModal"
+        );
+
+    if(event.target === modal){
+
+        closeStudentModal();
+    }
 }
