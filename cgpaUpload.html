@@ -1,95 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Semester CGPA Upload</title>
-
-    <link rel="stylesheet"
-          href="css/style.css">
-    
-    <link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
-
 </head>
-
 <body>
 
-    <div class="menu-btn" onclick="toggleSidebar()">
+<!-- ① MENU BUTTON — fixed, always on top -->
+<div class="menu-btn" onclick="toggleSidebar()">
     <i class="fas fa-bars"></i>
 </div>
 
-<header>
-
-    <h2>Semester CGPA Upload</h2>
-
-    <div class="sidebar" id="sidebar">
-
-<h3>Data Entry</h3>
-
-<ul>
-
-<li onclick="location.href='chairperson.html'">
-    Home
-</li>
-
-<li onclick="location.href='internalUpload.html'">
-Internals
-</li>
-
-<li onclick="location.href='semesterUpload.html'">
-Semester
-</li>
-
-<li onclick="location.href='aptitudeUpload.html'">
-Aptitude
-</li>
-
-<li onclick="location.href='technicalUpload.html'">
-Technical Skill
-</li>
-
-<li onclick="location.href='internshipUpload.html'">
-Internship
-</li>
-
-<li onclick="location.href='softskillUpload.html'">
-Soft Skill
-</li>
-
-<li onclick="location.href='attendanceUpload.html'">
-Attendance
-</li>
-
-<li onclick="location.href='engagementUpload.html'">
-Engagement
-</li>
-
-<li onclick="location.href='placementUpload.html'">
-Placement
-</li>
-
-</ul>
-
+<!-- ② SIDEBAR — direct child of body (NOT inside header) -->
+<div class="sidebar" id="sidebar">
+    <h3>Data Entry</h3>
+    <ul>
+        <li onclick="location.href='chairperson.html'">Home</li>
+        <li onclick="location.href='internalUpload.html'">Internals</li>
+        <li onclick="location.href='semesterUpload.html'">Semester</li>
+        <li onclick="location.href='aptitudeUpload.html'">Aptitude</li>
+        <li onclick="location.href='technicalUpload.html'">Technical Skill</li>
+        <li onclick="location.href='internshipUpload.html'">Internship</li>
+        <li onclick="location.href='softskillUpload.html'">Soft Skill</li>
+        <li onclick="location.href='attendanceUpload.html'">Attendance</li>
+        <li onclick="location.href='engagementUpload.html'">Engagement</li>
+        <li onclick="location.href='placementUpload.html'">Placement</li>
+    </ul>
 </div>
 
+<!-- ③ HEADER — clean, no sidebar inside -->
+<header>
+    <h2>Semester CGPA Upload</h2>
 </header>
 
+<!-- ④ MAIN CONTENT -->
 <div class="container" id="dashboardContainer">
 
     <div class="card">
-
         <h3>Select Semester</h3>
-
         <select id="cgpaSemester">
-
             <option value="Sem1">Sem1</option>
             <option value="Sem2">Sem2</option>
             <option value="Sem3">Sem3</option>
@@ -98,229 +51,72 @@ Placement
             <option value="Sem6">Sem6</option>
             <option value="Sem7">Sem7</option>
             <option value="Sem8">Sem8</option>
-
         </select>
-
         <br><br>
-
-        <button onclick="downloadCGPATemplate()">
-
-            Download Template
-
-        </button>
-
+        <button onclick="downloadCGPATemplate()">Download Template</button>
     </div>
 
     <div class="card">
-
         <h3>Upload Filled Excel File</h3>
-
-        <input
-            type="file"
-            id="cgpaFile"
-            accept=".xlsx">
-
+        <input type="file" id="cgpaFile" accept=".xlsx">
         <br><br>
-
-        <button onclick="uploadCGPAData()">
-
-            Upload CGPA
-
-        </button>
-
+        <button onclick="uploadCGPAData()">Upload CGPA</button>
     </div>
 
 </div>
 
 <script src="js/config.js"></script>
-
 <script>
 
+function toggleSidebar(){
+    const sidebar = document.getElementById('sidebar');
+    const container = document.getElementById('dashboardContainer');
+    sidebar.classList.toggle('active');
+    if(window.innerWidth > 768){
+        container.classList.toggle('shift');
+    }
+}
+
 function downloadCGPATemplate(){
-
-    const semester =
-        document.getElementById(
-            "cgpaSemester"
-        ).value;
-
+    const semester = document.getElementById('cgpaSemester').value;
     const sampleData = [
-
-        {
-            RollNo : "22UCS113",
-            [semester] : 8.45
-        },
-
-        {
-            RollNo : "22UCS114",
-            [semester] : 8.10
-        }
-
+        { RollNo: '22UCS113', [semester]: 8.45 },
+        { RollNo: '22UCS114', [semester]: 8.10 }
     ];
-
-    const ws =
-        XLSX.utils.json_to_sheet(
-            sampleData
-        );
-
-    const wb =
-        XLSX.utils.book_new();
-
-    XLSX.utils.book_append_sheet(
-
-        wb,
-
-        ws,
-
-        "CGPA"
-
-    );
-
-    XLSX.writeFile(
-
-        wb,
-
-        `${semester}_CGPA_Template.xlsx`
-
-    );
-
+    const ws = XLSX.utils.json_to_sheet(sampleData);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'CGPA');
+    XLSX.writeFile(wb, `${semester}_CGPA_Template.xlsx`);
 }
 
 async function uploadCGPAData(){
-
-    const file =
-        document.getElementById(
-            "cgpaFile"
-        ).files[0];
-
-    if(!file){
-
-        alert(
-            "Please select a file"
-        );
-
-        return;
-
-    }
-
-    const reader =
-        new FileReader();
-
-    reader.onload =
-        async function(e){
-
-        const workbook =
-            XLSX.read(
-
-                e.target.result,
-
-                {
-                    type : "binary"
-                }
-
-            );
-
-        const sheet =
-            workbook.Sheets[
-                workbook.SheetNames[0]
-            ];
-
-        const data =
-            XLSX.utils.sheet_to_json(
-                sheet
-            );
-
-        let semester = "";
-
-const headers =
-    Object.keys(data[0]);
-
-headers.forEach(header=>{
-
-    if(
-        header.trim()
-        .toUpperCase()
-        .startsWith("SEM")
-    ){
-
-        semester = header.trim();
-
-    }
-
-});
-
+    const file = document.getElementById('cgpaFile').files[0];
+    if(!file){ alert('Please select a file'); return; }
+    const reader = new FileReader();
+    reader.onload = async function(e){
+        const workbook = XLSX.read(e.target.result, { type: 'binary' });
+        const sheet = workbook.Sheets[workbook.SheetNames[0]];
+        const data = XLSX.utils.sheet_to_json(sheet);
+        let semester = '';
+        Object.keys(data[0]).forEach(header => {
+            if(header.trim().toUpperCase().startsWith('SEM')) semester = header.trim();
+        });
         try{
-
-            const response =
-                await fetch(
-                    API_URL,
-                    {
-
-                        method : "POST",
-
-                        body : JSON.stringify({
-
-                            action :
-                                "uploadCGPA",
-
-                            semester :
-                                semester,
-
-                            data :
-                                data
-
-                        })
-
-                    }
-                );
-
-            const result =
-                await response.json();
-
-            alert(
-                result.message
-            );
-
-        }
-        catch(error){
-
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                body: JSON.stringify({ action: 'uploadCGPA', semester, data })
+            });
+            const result = await response.json();
+            alert(result.message);
+        } catch(error){
             console.error(error);
-
-            alert(
-                "Upload Failed"
-            );
-
+            alert('Upload Failed');
         }
-
     };
-
-    reader.readAsBinaryString(
-        file
-    );
-
-}
-
-function toggleSidebar(){
-
-    const sidebar =
-        document.getElementById(
-            "sidebar"
-        );
-
-    const container =
-        document.getElementById(
-            "dashboardContainer"
-        );
-
-    sidebar.classList.toggle(
-        "active"
-    );
-    if(window.innerWidth > 768){
-        container.classList.toggle("shift");
-    }
+    reader.readAsBinaryString(file);
 }
 
 </script>
-
 </body>
-
 </html>
+
