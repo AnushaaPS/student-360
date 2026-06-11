@@ -724,9 +724,13 @@ table tr:last-child td{
 }
 
 .radar-container{
-    width: 100%;
-    max-width: 480px;
-    margin: auto;
+    height:750px;
+    max-width:700px;
+    margin:0 auto;
+}
+
+#radarChart{
+    max-height:none !important;
 }
 
 /* ═══════════════════════════════════════════════════
@@ -1574,13 +1578,6 @@ footer{
     position:relative;
 }
 
-.radar-container{
-    width:100%;
-    max-width:420px;
-    margin:auto;
-    position:relative;
-}
-
 canvas{
     max-width:100%;
 }
@@ -2214,4 +2211,215 @@ header,
     .sidebar.active{
         right: 0 !important;
     }
+}
+
+/* ===================================
+   LIGHT THEME
+=================================== */
+
+body.light-mode{
+
+    --bg-base:#f4f8fc;
+    --bg-surface:#ffffff;
+    --bg-card:#ffffff;
+    --bg-glass:rgba(255,255,255,.9);
+    --bg-input:#ffffff;
+
+    --text-primary:#0f172a;
+    --text-secondary:#334155;
+    --text-muted:#64748b;
+
+    --border:rgba(14,165,233,.15);
+    --border-hover:rgba(14,165,233,.35);
+
+    background:#f4f8fc;
+    color:#0f172a;
+}
+
+/* remove dark glow */
+
+body.light-mode::before{
+    display:none;
+}
+
+/* cards */
+
+body.light-mode .card,
+body.light-mode .kpi-box,
+body.light-mode .chart-container,
+body.light-mode .analytics-box{
+
+    background:#ffffff;
+    color:#0f172a;
+
+    box-shadow:
+        0 2px 12px rgba(0,0,0,.08);
+}
+
+/* table */
+
+body.light-mode table th{
+
+    background:#e0f2fe;
+    color:#0369a1;
+}
+
+body.light-mode table td{
+
+    color:#334155;
+}
+
+/* sidebar */
+
+body.light-mode .sidebar{
+
+    background:#ffffff !important;
+}
+
+body.light-mode .sidebar ul li{
+
+    color:#334155 !important;
+}
+
+/* footer */
+
+body.light-mode footer{
+
+    background:#ffffff;
+}
+
+/* header */
+
+body.light-mode header,
+body.light-mode .dashboard-header{
+
+    background:#ffffff;
+}
+
+/* recommendation */
+
+body.light-mode .recommendation-list li{
+
+    background:#f1f5f9;
+}
+
+.theme-toggle{
+
+    width:44px;
+    height:44px;
+
+    padding:0;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:18px;
+
+    border-radius:10px;
+
+    position:absolute;
+
+    top:10px;
+    right:80px;
+}
+
+/* ===================================
+   LIGHT MODE FIXES
+=================================== */
+
+/* Modal */
+
+body.light-mode .student-modal-content{
+    background:#ffffff !important;
+    color:#0f172a !important;
+}
+
+body.light-mode .student-modal{
+    background:rgba(0,0,0,.45) !important;
+}
+
+body.light-mode #studentDetailContent,
+body.light-mode #studentDetailContent p,
+body.light-mode #studentDetailContent span,
+body.light-mode #studentDetailContent div{
+    color:#334155 !important;
+}
+
+body.light-mode #studentDetailContent h1,
+body.light-mode #studentDetailContent h2,
+body.light-mode #studentDetailContent h3,
+body.light-mode #studentDetailContent h4{
+    color:#0ea5e9 !important;
+}
+
+/* Calculation reference */
+
+body.light-mode .calc-content{
+
+    background:#f8fafc !important;
+
+    color:#334155 !important;
+
+    border:1px solid #cbd5e1 !important;
+}
+
+body.light-mode .formula-box{
+
+    background:#ffffff !important;
+
+    color:#0f172a !important;
+
+    border:1px solid #cbd5e1 !important;
+}
+
+body.light-mode .calc-item{
+
+    background:#ffffff !important;
+
+    color:#334155 !important;
+}
+
+body.light-mode .formula-card{
+
+    background:#ffffff !important;
+}
+
+body.light-mode .formula-card p{
+
+    color:#334155 !important;
+}
+
+/* Analytics text */
+
+body.light-mode .analytics-box p,
+body.light-mode .analytics-box li,
+body.light-mode .analytics-box span{
+
+    color:#334155 !important;
+}
+
+/* KPI Tooltip */
+
+body.light-mode .kpi-tooltip{
+
+    background:#ffffff !important;
+
+    color:#0f172a !important;
+
+    border:1px solid #cbd5e1 !important;
+}
+
+body.light-mode .kpi-tooltip::after{
+
+    border-bottom-color:#ffffff !important;
+}
+
+/* Accordion button */
+
+body.light-mode .calc-btn{
+
+    background:#ffffff !important;
+
+    color:#0f172a !important;
 }
