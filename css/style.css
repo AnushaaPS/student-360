@@ -1954,23 +1954,26 @@ canvas{
     z-index:999999;
 }
 
+/* MOBILE DASHBOARD FIX */
+
 @media(max-width:768px){
 
-.dashboard-header{
-    display:flex;
-    flex-direction:column;
-    gap:12px;
-    padding:20px 70px 20px 20px;
-    text-align:center;
-}
+    .dashboard-header{
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        text-align:center;
+        gap:12px;
+        padding:20px 70px 20px 20px;
+    }
 
-.dashboard-header h2{
-    font-size:2rem;
-}
+    .dashboard-header h2{
+        font-size:2rem;
+    }
 
-.logout-btn{
-    width:180px;
-    margin:auto;
-}
+    .logout-btn{
+        width:180px;
+        margin:auto;
+    }
 
 }
