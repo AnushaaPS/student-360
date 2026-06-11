@@ -28,7 +28,7 @@ function createRadarChart(chartId, indices){
     const ctx =
         document.getElementById(chartId);
 
-    new Chart(ctx, {
+    const radarChart = new Chart(ctx,{
 
         type : "radar",
 
@@ -95,44 +95,101 @@ function createRadarChart(chartId, indices){
 
         options : {
 
-            responsive : true,
+    responsive : true,
 
-            scales : {
+    layout : {
+    padding : 40
+},
 
-                r : {
+    plugins : {
 
-                    min : 0,
+        legend : {
 
-                    max : 100,
+            labels : {
 
-                    ticks : {
-
-                        color : "white"
-
-                    },
-
-                    pointLabels : {
-
-                        color : "white"
-
-                    },
-
-                    grid : {
-
-                        color : "#334155"
-
-                    }
-
-                }
+                color: getChartTextColor()
 
             }
 
         }
 
-    });
+    },
+
+    scales : {
+
+        r : {
+
+            min : 0,
+            max : 100,
+
+            ticks : {
+
+                color : getChartTextColor(),
+                backdropColor : "transparent"
+
+            },
+
+            pointLabels:{
+    display:true,
+    color: getChartTextColor(),
+    font:{
+        size:16,
+        weight:"600"
+    },
+    padding:20
+},
+
+            grid : {
+
+                color : getChartGridColor()
+
+            },
+
+            angleLines : {
+
+                color : getChartGridColor()
+
+            }
+
+        }
+
+    }
 
 }
 
+    });
+
+    setTimeout(() => {
+
+    const chart = Chart.getChart(chartId);
+
+    if(chart){
+
+        chart.options.scales.r.pointLabels.display = true;
+
+        chart.options.scales.r.pointLabels.color = "red";
+
+        chart.options.scales.r.pointLabels.font = {
+            size:20,
+            weight:"bold"
+        };
+
+        chart.update();
+
+    }
+
+},100);
+
+}
+
+document.addEventListener(
+    "themeChanged",
+    () => {
+
+        loadStudentDashboard();
+
+    }
+);
 
 
 /************************************************
@@ -201,7 +258,7 @@ function createCGPATrendChart(chartId, cgpaRow){
 
                     labels : {
 
-                        color : "white"
+                        color : getChartTextColor()
 
                     }
 
@@ -215,7 +272,7 @@ function createCGPATrendChart(chartId, cgpaRow){
 
                     ticks : {
 
-                        color : "white"
+                        color : getChartTextColor()
 
                     }
 
@@ -225,7 +282,7 @@ function createCGPATrendChart(chartId, cgpaRow){
 
                     ticks : {
 
-                        color : "white"
+                        color : getChartTextColor()
 
                     }
 
@@ -284,42 +341,53 @@ function createBarChart(
 
             plugins : {
 
-                legend : {
+    legend : {
 
-                    labels : {
+        labels : {
 
-                        color : "white"
+            color : getChartTextColor()
 
-                    }
+        }
 
-                }
+    }
 
-            },
+},
 
-            scales : {
+scales : {
 
-                x : {
+    x : {
 
-                    ticks : {
+        ticks : {
 
-                        color : "white"
+            color : getChartTextColor()
 
-                    }
+        },
 
-                },
+        grid : {
 
-                y : {
+            color : getChartGridColor()
 
-                    ticks : {
+        }
 
-                        color : "white"
+    },
 
-                    }
+    y : {
 
-                }
+        ticks : {
 
-            }
+            color : getChartTextColor()
 
+        },
+
+        grid : {
+
+            color : getChartGridColor()
+
+        }
+
+    }
+
+}
         }
 
     });
@@ -375,19 +443,19 @@ function createPieChart(
 
             responsive : true,
 
-            plugins : {
+plugins : {
 
-                legend : {
+    legend : {
 
-                    labels : {
+        labels : {
 
-                        color : "white"
+            color : getChartTextColor()
 
-                    }
+        }
 
-                }
+    }
 
-            }
+}
 
         }
 
@@ -455,7 +523,7 @@ function createAptitudeTrendChart(
 
                     labels : {
 
-                        color : "white"
+                        color : getChartTextColor()
 
                     }
 
@@ -469,7 +537,7 @@ function createAptitudeTrendChart(
 
                     ticks : {
 
-                        color : "white"
+                        color : getChartTextColor()
 
                     }
 
@@ -479,7 +547,7 @@ function createAptitudeTrendChart(
 
                     ticks : {
 
-                        color : "white"
+                        color : getChartTextColor()
 
                     }
 
@@ -732,4 +800,22 @@ function createClassPerformanceChart(
 
     );
 
+}
+
+function getChartTextColor(){
+
+    return document.body.classList.contains(
+        "light-mode"
+    )
+        ? "#334155"
+        : "#94a3b8";
+}
+
+function getChartGridColor(){
+
+    return document.body.classList.contains(
+        "light-mode"
+    )
+        ? "#cbd5e1"
+        : "rgba(255,255,255,.12)";
 }
