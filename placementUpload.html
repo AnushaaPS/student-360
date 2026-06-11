@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Placement Data Upload</title>
+
+<link rel="stylesheet"
+      href="css/style.css">
+
+    <link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
+</head>
+
+<body>
+
+    <!-- Hamburger -->
+
+<div class="menu-btn" onclick="toggleSidebar()">
+    <i class="fas fa-bars"></i>
+</div>
+
+<!-- Sidebar -->
+
+<div class="sidebar" id="sidebar">
+
+<h3>Data Entry</h3>
+
+<ul>
+
+<li onclick="location.href='chairperson.html'">
+Home
+</li>
+
+<li onclick="location.href='cgpaUpload.html'">
+CGPA
+</li>
+
+<li onclick="location.href='internalUpload.html'">
+Internals
+</li>
+
+<li onclick="location.href='semesterUpload.html'">
+Semester
+</li>
+
+<li onclick="location.href='aptitudeUpload.html'">
+Aptitude
+</li>
+
+<li onclick="location.href='technicalUpload.html'">
+Technical Skill
+</li>
+
+<li onclick="location.href='internshipUpload.html'">
+Internship
+</li>
+
+<li onclick="location.href='softskillUpload.html'">
+Soft Skill
+</li>
+
+<li onclick="location.href='attendanceUpload.html'">
+Attendance
+</li>
+
+<li onclick="location.href='engagementUpload.html'">
+Engagement
+</li>
+
+</ul>
+
+</div>
+
+<header>
+
+    <h2>Placement Data Upload</h2>
+
+</header>
+
+<div class="container" id="dashboardContainer">
+
+    <div class="card">
+
+        <h3>Download Template</h3>
+
+        <button onclick="downloadPlacementTemplate()">
+
+            Download Template
+
+        </button>
+
+    </div>
+
+    <div class="card">
+
+        <h3>Upload Filled Excel</h3>
+
+        <input
+            type="file"
+            id="placementFile"
+            accept=".xlsx">
+
+        <br><br>
+
+        <button onclick="uploadPlacementData()">
+
+            Upload Placement Data
+
+        </button>
+
+    </div>
+
+</div>
+
+<script src="js/config.js"></script>
+
+<script src="js/theme.js"></script>
+
+<script>
+
+function downloadPlacementTemplate(){
+
+    const sampleData = [
+
+        {
+
+            RollNo : "22UCS113",
+
+            MockInterview : 75,
+
+            ResumeScore : 80,
+
+            CodingScore : 85,
+
+            HRScore : 78
+
+        },
+
+        {
+
+            RollNo : "22UCS114",
+
+            MockInterview : 82,
+
+            ResumeScore : 88,
+
+            CodingScore : 91,
+
+            HRScore : 84
+
+        }
+
+    ];
+
+    const ws =
+        XLSX.utils.json_to_sheet(
+            sampleData
+        );
+
+    const wb =
+        XLSX.utils.book_new();
+
+    XLSX.utils.book_append_sheet(
+
+        wb,
+
+        ws,
+
+        "PLACEMENT_DATA"
+
+    );
+
+    XLSX.writeFile(
+
+        wb,
+
+        "Placement_Template.xlsx"
+
+    );
+
+}
+
+async function uploadPlacementData(){
+
+    const file =
+        document.getElementById(
+            "placementFile"
+        ).files[0];
+
+    if(!file){
+
+        alert(
+            "Please select a file"
+        );
+
+        return;
+
+    }
+
+    const reader =
+        new FileReader();
+
+    reader.onload =
+        async function(e){
+
+        const workbook =
+            XLSX.read(
+
+                e.target.result,
+
+                {
+
+                    type : "binary"
+
+                }
+
+            );
+
+        const sheet =
+            workbook.Sheets[
+                workbook.SheetNames[0]
+            ];
+
+        const data =
+            XLSX.utils.sheet_to_json(
+                sheet
+            );
+
+        try{
+
+            const response =
+                await fetch(
+
+                    API_URL,
+
+                    {
+
+                        method : "POST",
+
+                        body : JSON.stringify({
+
+                            action :
+                                "uploadPlacement",
+
+                            data :
+                                data
+
+                        })
+
+                    }
+
+                );
+
+            const result =
+                await response.json();
+
+            alert(
+                result.message
+            );
+
+        }
+        catch(error){
+
+            console.error(error);
+
+            alert(
+                "Upload Failed"
+            );
+
+        }
+
+    };
+
+    reader.readAsBinaryString(
+        file
+    );
+
+}
+
+function toggleSidebar(){
+
+    document
+    .getElementById("sidebar")
+    .classList
+    .toggle("active");
+
+    document
+    .getElementById("dashboardContainer")
+    .classList
+    .toggle("shift");
+
+}
+
+</script>
+
+</body>
+
+</html>

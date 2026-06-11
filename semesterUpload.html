@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>End Semester Grade Upload</title>
+
+    <link rel="stylesheet"
+          href="css/style.css">
+    <link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
+</head>
+
+<body>
+
+    <!-- Hamburger -->
+
+<div class="menu-btn" onclick="toggleSidebar()">
+    <i class="fas fa-bars"></i>
+</div>
+
+<!-- Sidebar -->
+
+<div class="sidebar" id="sidebar">
+
+<h3>Data Entry</h3>
+
+<ul>
+
+<li onclick="location.href='chairperson.html'">
+Home
+</li>
+
+<li onclick="location.href='cgpaUpload.html'">
+CGPA
+</li>
+
+<li onclick="location.href='internalUpload.html'">
+Internals
+</li>
+
+<li onclick="location.href='aptitudeUpload.html'">
+Aptitude
+</li>
+
+<li onclick="location.href='technicalUpload.html'">
+Technical Skill
+</li>
+
+<li onclick="location.href='internshipUpload.html'">
+Internship
+</li>
+
+<li onclick="location.href='softskillUpload.html'">
+Soft Skill
+</li>
+
+<li onclick="location.href='attendanceUpload.html'">
+Attendance
+</li>
+
+<li onclick="location.href='engagementUpload.html'">
+Engagement
+</li>
+
+<li onclick="location.href='placementUpload.html'">
+Placement
+</li>
+
+</ul>
+
+</div>
+
+<header>
+
+    <h2>End Semester Grade Upload</h2>
+
+</header>
+
+<div class="container" id="dashboardContainer">
+
+    <div class="card">
+
+        <h3>Download Template</h3>
+
+        <button onclick="downloadSemesterTemplate()">
+
+            Download Template
+
+        </button>
+
+    </div>
+
+    <div class="card">
+
+        <h3>Upload Filled Excel File</h3>
+
+        <input
+            type="file"
+            id="semesterFile"
+            accept=".xlsx">
+
+        <br><br>
+
+        <button onclick="uploadSemesterData()">
+
+            Upload Grades
+
+        </button>
+
+    </div>
+
+</div>
+
+<script src="js/config.js"></script>
+
+<script src="js/theme.js"></script>
+
+<script>
+
+function downloadSemesterTemplate(){
+
+    const sampleData = [
+
+        {
+
+            RollNo : "22UCS113",
+
+            Semester : "5",
+
+            CourseCode : "CS2201",
+
+            CourseName : "NLP",
+
+            EndSemGrade : "A"
+
+        },
+
+        {
+
+            RollNo : "22UCS113",
+
+            Semester : "5",
+
+            CourseCode : "CS2202",
+
+            CourseName : "ML",
+
+            EndSemGrade : "B+"
+
+        }
+
+    ];
+
+    const ws =
+        XLSX.utils.json_to_sheet(
+            sampleData
+        );
+
+    const wb =
+        XLSX.utils.book_new();
+
+    XLSX.utils.book_append_sheet(
+
+        wb,
+
+        ws,
+
+        "Semester"
+
+    );
+
+    XLSX.writeFile(
+
+        wb,
+
+        "Semester_Grade_Template.xlsx"
+
+    );
+
+}
+
+async function uploadSemesterData(){
+
+    const file =
+        document.getElementById(
+            "semesterFile"
+        ).files[0];
+
+    if(!file){
+
+        alert(
+            "Please select a file"
+        );
+
+        return;
+
+    }
+
+    const reader =
+        new FileReader();
+
+    reader.onload =
+        async function(e){
+
+        const workbook =
+            XLSX.read(
+
+                e.target.result,
+
+                {
+
+                    type:"binary"
+
+                }
+
+            );
+
+        const sheet =
+            workbook.Sheets[
+                workbook.SheetNames[0]
+            ];
+
+        const data =
+            XLSX.utils.sheet_to_json(
+                sheet
+            );
+
+        try{
+
+            const response =
+                await fetch(
+
+                    API_URL,
+
+                    {
+
+                        method:"POST",
+
+                        body:JSON.stringify({
+
+                            action:
+                                "uploadSemester",
+
+                            data:
+                                data
+
+                        })
+
+                    }
+
+                );
+
+            const result =
+                await response.json();
+
+            alert(
+                result.message
+            );
+
+        }
+        catch(error){
+
+            console.error(
+                error
+            );
+
+            alert(
+                "Upload Failed"
+            );
+
+        }
+
+    };
+
+    reader.readAsBinaryString(
+        file
+    );
+
+}
+
+function toggleSidebar(){
+
+    document
+    .getElementById("sidebar")
+    .classList
+    .toggle("active");
+
+    document
+    .getElementById("dashboardContainer")
+    .classList
+    .toggle("shift");
+
+}
+
+</script>
+
+</body>
+
+</html>

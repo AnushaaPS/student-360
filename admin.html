@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet"
+          href="css/style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
+    <link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+</head>
+
+<body>
+
+
+    <!-- HEADER -->
+    <header class="dashboard-header">
+
+    <h2>Admin Dashboard</h2>
+
+    <button class="logout-btn"
+            onclick="logout()">
+        Logout
+    </button>
+
+</header>
+
+    <!-- Hamburger -->
+
+<div class="menu-btn"
+     onclick="toggleSidebar()">
+
+    <i class="fas fa-bars"></i>
+
+</div>
+
+<div class="sidebar"
+     id="sidebar">
+
+<h3>
+Admin Modules
+</h3>
+
+<ul>
+
+<li onclick="showAdminSection('overviewSection')">
+Dashboard Overview
+</li>
+
+<li onclick="showAdminSection('categorySection')">
+Category Management
+</li>
+
+<li onclick="showAdminSection('domainSection')">
+Domain Management
+</li>
+
+<li onclick="showAdminSection('thresholdSection')">
+Threshold Management
+</li>
+
+<li onclick="showAdminSection('recommendationSection')">
+Recommendation Configuration
+</li>
+
+<li onclick="showAdminSection('studentSection')">
+Student Management
+</li>
+
+<li onclick="showAdminSection('facultySection')">
+Faculty Management
+</li>
+
+<li onclick="showAdminSection('dataSection')">
+Smart Data Management
+</li>
+
+<li onclick="showAdminSection('engagementSection')">
+Engagement Events
+</li>
+
+<li onclick="showAdminSection('formulaSection')">
+System Calculations
+</li>
+
+</ul>
+
+</div>
+
+
+    <!-- LOADER -->
+    <div id="loader"></div>
+
+    <!-- MAIN DASHBOARD -->
+    <div class="container"
+         id="dashboardSection">
+<!-- PROFILE CARD -->
+<div class="card">
+
+    <div class="profile-box">
+
+        <div class="profile-avatar">
+
+            <span id="adminAvatar"></span>
+
+        </div>
+
+        <div>
+
+            <h1 id="adminName"></h1>
+
+            <p>System Administrator</p>
+
+            <p>Institution Level Access</p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+    <!-- DASHBOARD -->
+    <div class="container"
+         id="adminDashboard">
+
+
+     <!-- KPI -->
+    <div class="grid">
+
+        <div class="kpi-box">
+            <h3>Total Students</h3>
+            <h2 id="adminTotalStudents"></h2>
+        </div>
+
+        <div class="kpi-box">
+            <h3>Total Faculty</h3>
+            <h2 id="adminTotalFaculty"></h2>
+        </div>
+
+        <div class="kpi-box">
+            <h3>Departments</h3>
+            <h2 id="adminDepartments"></h2>
+        </div>
+
+        <div class="kpi-box">
+            <h3>Categories</h3>
+            <h2 id="adminCategories"></h2>
+        </div>
+
+    </div>
+    </div>
+    
+    <!-- CATEGORY TABLE -->
+         <div id="categorySection"
+     class="admin-section">
+        <div class="card">
+
+            <h3 class="section-title">
+
+                Category Configuration Management
+
+            </h3>
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Category</th>
+
+                            <th>Weight</th>
+
+                            <th>Status</th>
+
+                            <th>Action</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="categoryTableBody">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+        </div>
+
+        <div id="domainSection"
+     class="admin-section">
+
+        <div class="card">
+
+<h3 class="section-title">
+
+Domain Management
+
+</h3>
+
+<div class="grid">
+
+<input
+    type="text"
+    id="newDomain"
+    placeholder="Domain Name">
+
+<input
+    type="number"
+    id="newDomainWeight"
+    placeholder="Weight">
+
+<button onclick="addDomain()">
+
+    Add Domain
+
+</button>
+
+</div>
+
+<div class="table-container">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Domain</th>
+<th>Weight</th>
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody id="domainTableBody">
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+</div>
+
+        <!-- THRESHOLD MANAGEMENT -->
+
+<div id="thresholdSection"
+     class="admin-section">
+<div class="card">
+
+    <h3 class="section-title">
+
+        Dynamic Threshold Management
+
+    </h3>
+
+    <div class="table-container"
+         style="margin-top:20px;">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Metric</th>
+                    <th>Min</th>
+                    <th>Max</th>
+                    <th>Label</th>
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="thresholdTableBody">
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+</div>
+ 
+
+<!-- RECOMMENDATION CONFIG -->
+ <div id="recommendationSection"
+     class="admin-section">
+<div class="card">
+
+    <h3 class="section-title">
+
+        Recommendation Configuration
+
+    </h3>
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Metric</th>
+                    <th>Threshold</th>
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="recommendationConfigBody">
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+ </div>
+
+
+        <!-- STUDENT MANAGEMENT -->
+         <div id="studentSection"
+     class="admin-section">
+        <div class="card">
+
+    <h3 class="section-title">
+        Student Management
+    </h3>
+
+    <div class="grid">
+
+        <input
+            type="text"
+            id="searchRollNo"
+            placeholder="Enter Roll Number">
+
+        <button
+            onclick="searchStudent()">
+
+            Search Student
+
+        </button>
+
+    </div>
+
+    <div id="studentDetailsContainer">
+
+    </div>
+
+</div>
+</div>
+
+        <!-- FACULTY MANAGEMENT -->
+         <div id="facultySection"
+     class="admin-section">
+        <div class="card">
+
+    <h3 class="section-title">
+        Faculty Management
+    </h3>
+
+    <div class="grid">
+
+        <input
+            type="text"
+            id="searchFacultyID"
+            placeholder="Enter Faculty ID">
+
+        <button
+            onclick="searchFaculty()">
+
+            Search Faculty
+
+        </button>
+
+    </div>
+
+    <div id="facultyDetailsContainer">
+
+    </div>
+
+</div>
+</div>
+
+        <!-- DATA MANAGEMENT -->
+<div id="dataSection"
+     class="admin-section">
+<div class="card">
+
+    <h3 class="section-title">
+
+        Smart Data Management
+
+    </h3>
+
+    <div class="grid">
+
+        <!-- STUDENT -->
+        <div>
+
+            <h4>Student Template</h4>
+
+            <button onclick="downloadStudentTemplate()">
+
+                Download Student Template
+
+            </button>
+
+            <input type="file"
+                   id="studentUpload">
+
+            <button onclick="uploadStudentData()">
+
+                Upload Students
+
+            </button>
+
+        </div>
+
+
+        <!-- FACULTY -->
+        <div>
+
+            <h4>Faculty Template</h4>
+
+            <button onclick="downloadFacultyTemplate()">
+
+                Download Faculty Template
+
+            </button>
+
+            <input type="file"
+                   id="facultyUpload">
+
+            <button onclick="uploadFacultyData()">
+
+                Upload Faculty
+
+            </button>
+
+        </div>
+
+
+        <!-- COURSE -->
+        <div>
+
+            <h4>Course Template</h4>
+
+            <button onclick="downloadCourseTemplate()">
+
+                Download Course Template
+
+            </button>
+
+            <input type="file"
+                   id="courseUpload">
+
+            <button onclick="uploadCourseData()">
+
+                Upload Courses
+
+            </button>
+
+        </div>
+
+
+        <!-- DOMAIN -->
+        <div>
+
+            <h4>Domain Mapping</h4>
+
+            <button onclick="downloadDomainTemplate()">
+
+                Download Domain Template
+
+            </button>
+
+            <input type="file"
+                   id="domainUpload">
+
+            <button onclick="uploadDomainData()">
+
+                Upload Domain Mapping
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+</div>
+
+<!-- ENGAGEMENT EVENT -->
+<div id="engagementSection"
+     class="admin-section">
+<div class="card">
+
+    <h3 class="section-title">
+
+        Dynamic Engagement Event
+
+    </h3>
+
+    <!-- ADD NEW EVENT -->
+    <div class="grid">
+
+        <input type="text"
+               id="eventName"
+               placeholder="Event Name">
+
+        <input type="number"
+               id="eventMarks"
+               placeholder="Marks">
+
+        <button onclick="addEngagementEvent()">
+
+            Add Event
+
+        </button>
+
+    </div>
+
+
+
+    <!-- EXISTING EVENTS -->
+    <div style="margin-top:30px;">
+
+        <h4 style="margin-bottom:15px;">
+
+            Existing Events
+
+        </h4>
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Event</th>
+
+                        <th>Marks</th>
+
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="engagementEventBody">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+    </div>
+
+    </div>
+    </div>
+
+    <!-- SYSTEM CALCULATIONS -->
+<div id="formulaSection"
+     class="admin-section">
+<div class="card">
+
+    <h3 class="section-title">
+
+        System Calculation Reference
+
+    </h3>
+
+    <div id="calculationReference">
+
+    <div class="calc-accordion">
+
+        <button class="calc-btn">
+            🎯 360° Score Formula
+        </button>
+
+        <div class="calc-content">
+
+            <div id="score360Formula"></div>
+
+            <div class="formula-box">
+
+                360° Score =
+                Σ(Category Score × Category Weight)
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="calc-accordion">
+
+        <button class="calc-btn">
+            📊 Index Calculation Formulas
+        </button>
+
+        <div class="calc-content">
+
+            <div id="formulaReference">
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="calc-accordion">
+
+        <button class="calc-btn">
+            🚀 Placement Readiness Formula
+        </button>
+
+        <div class="calc-content">
+
+            <div id="placementCalculation">
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="calc-accordion">
+
+        <button class="calc-btn">
+            🤖 ML Placement Prediction
+        </button>
+
+        <div class="calc-content">
+
+            <div id="mlPlacementFormula">
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="calc-accordion">
+
+        <button class="calc-btn">
+            ⚠️ ML Risk Formula
+        </button>
+
+        <div class="calc-content">
+
+            <div id="riskCalculation">
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="calc-accordion">
+
+        <button class="calc-btn">
+            💡 Recommendation Rules
+        </button>
+
+        <div class="calc-content">
+
+            <div id="recommendationRules">
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="calc-accordion">
+
+        <button class="calc-btn">
+            📈 Risk Classification
+        </button>
+
+        <div class="calc-content">
+
+            <div id="riskFormula">
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="calc-accordion">
+
+        <button class="calc-btn">
+            🎓 Placement Readiness Levels
+        </button>
+
+        <div class="calc-content">
+
+            <div id="placementFormula">
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="calc-accordion">
+
+        <button class="calc-btn">
+            🧠 Domain Levels
+        </button>
+
+        <div class="calc-content">
+
+            <div id="domainFormula">
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="calc-accordion">
+
+        <button class="calc-btn">
+            📚 Academic Performance Levels
+        </button>
+
+        <div class="calc-content">
+
+            <div id="academicFormula">
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+</div>
+
+
+    <!-- JS FILES -->
+
+    <script src="js/config.js"></script>
+
+    <script src="js/fetchData.js"></script>
+
+    <script src="js/calculations.js"></script>
+
+    <script src="js/adminDataManagement.js"></script>
+
+    <script src="js/adminDashboard.js"></script>
+
+    <script src="js/logout.js"></script>
+
+    <script src="js/theme.js"></script>
+
+<script>
+
+function toggleSidebar(){
+
+    const sidebar =
+        document.getElementById(
+            "sidebar"
+        );
+
+    sidebar.classList.toggle(
+        "active"
+    );
+
+    document
+    .getElementById(
+        "dashboardSection"
+    )
+    .classList.toggle(
+        "shift"
+    );
+
+    document
+    .getElementById(
+        "adminDashboard"
+    )
+    .classList.toggle(
+        "shift"
+    );
+
+}
+
+function showAdminSection(id){
+
+    document
+    .querySelectorAll(
+        ".admin-section"
+    )
+    .forEach(section=>{
+
+        section.classList.remove(
+            "active"
+        );
+
+    });
+
+    document
+    .getElementById(id)
+    .classList.add(
+        "active"
+    );
+
+    document
+    .getElementById(
+        "sidebar"
+    )
+    .classList.remove(
+        "active"
+    );
+
+    document
+.getElementById(
+    "dashboardSection"
+)
+.classList.remove(
+    "shift"
+);
+
+document
+.getElementById(
+    "adminDashboard"
+)
+.classList.remove(
+    "shift"
+);
+
+}
+
+</script>
+
+</body>
+
+</html>
