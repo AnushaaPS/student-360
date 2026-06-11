@@ -1348,15 +1348,6 @@ footer{
         max-height:90vh;
         overflow-y:auto;
     }
-
-    .close-modal{
-
-        position:sticky;
-        top:0;
-        float:right;
-        background:#1e293b;
-        z-index:999;
-    }
 }
 
 .close-modal:hover{
@@ -1473,18 +1464,27 @@ footer{
 @media (max-width:768px){
 
     .menu-btn{
-        position:fixed;
-        top:10px;
-        right:10px;
-        z-index:100001;
-    }
 
-    .sidebar{
-        width:85%;
-        max-width:320px;
-        right:-100%;
-        z-index:100000;
-    }
+    position:fixed !important;
+
+    top:15px !important;
+
+    right:15px !important;
+
+    width:50px;
+    height:50px;
+
+    display:flex !important;
+
+    align-items:center;
+    justify-content:center;
+
+    z-index:999999 !important;
+
+    visibility:visible !important;
+
+    opacity:1 !important;
+}
 
     .sidebar.active{
         right:0;
@@ -1590,12 +1590,6 @@ canvas{
 }
 
 @media (max-width:768px){
-
-    .sidebar{
-    width:280px;
-    max-width:80vw;
-    right:-280px;
-}
 
     .sidebar.active{
         right:0 !important;
@@ -1762,20 +1756,31 @@ canvas{
 @media(max-width:768px){
 
     .close-modal{
+    position:fixed !important;
+    top:15px !important;
+    right:15px !important;
 
-        position:fixed;
+    width:48px;
+    height:48px;
 
-        top:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 
-        right:10px;
+    background:#1e293b;
+    color:#38bdf8;
 
-        width:45px;
+    font-size:30px;
+    font-weight:bold;
 
-        height:45px;
+    border-radius:12px;
 
-        font-size:30px;
+    cursor:pointer;
 
-    }
+    z-index:9999999;
+
+    box-shadow:0 0 20px rgba(56,189,248,.35);
+}
 
 }
 
@@ -1854,18 +1859,24 @@ canvas{
 
     .sidebar{
 
-        width:300px;
+        position:fixed;
 
-        max-width:85vw;
+        top:0;
 
-        right:-300px;
+        right:-100%;
 
+        width:85vw;
+
+        max-width:320px;
+
+        height:100vh;
+
+        z-index:999998;
     }
 
     .sidebar.active{
 
         right:0;
-
     }
 
 }
@@ -1874,12 +1885,51 @@ canvas{
 
     #studentDetailContent .grid{
 
-        display:flex;
+        display:grid !important;
 
-        flex-direction:column;
+        grid-template-columns:1fr !important;
 
-        gap:15px;
-
+        gap:15px !important;
     }
 
+    #studentDetailContent .card{
+
+        width:100% !important;
+        margin:0 !important;
+    }
+}
+
+@media(max-width:768px){
+
+    .card button{
+
+        width:100% !important;
+
+        min-height:52px;
+
+        font-size:16px;
+    }
+
+    .card select{
+
+        width:100% !important;
+    }
+
+    .card input[type=file]{
+
+        width:100% !important;
+    }
+
+}
+
+.student-modal{
+
+    z-index:9999999 !important;
+}
+
+.student-modal-content{
+
+    position:relative;
+
+    z-index:9999999 !important;
 }
