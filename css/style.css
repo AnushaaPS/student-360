@@ -452,7 +452,7 @@ button:active{ transform: translateY(0) scale(0.97); }
     box-shadow: 0 20px 48px rgba(0,0,0,0.70), 0 0 0 1px rgba(56,189,248,0.10) inset;
     font-size: 13px;
     line-height: 1.65;
-    pointer-events: none;
+    pointer-events: auto;
     animation: tooltipIn 0.18s ease both;
 }
 
@@ -1578,7 +1578,10 @@ canvas{
 .small-chart-container,
 .radar-container{
     width:100%;
-    max-width:100%;
+    max-width:420px;
+    height:420px;
+    margin:auto;
+    position:relative;
 }
 
 @media (max-width:768px){
@@ -1645,9 +1648,8 @@ canvas{
     .chart-container,
     .small-chart-container,
     .radar-container{
-
-        height:280px !important;
-        max-width:100% !important;
+        max-width:300px;
+        height:300px;
     }
 
     canvas{
@@ -1715,5 +1717,52 @@ canvas{
 
     .card canvas{
         width:100% !important;
+       max-height:300px;
     }
+}
+
+@media(max-width:768px){
+
+    .small-chart-container{
+        max-width:280px;
+        height:280px;
+    }
+
+}
+
+@media(max-width:768px){
+
+    .upload-card{
+        width:100%;
+        padding:18px;
+    }
+
+    .upload-card button{
+        width:100%;
+    }
+
+    .upload-card select{
+        width:100%;
+    }
+
+}
+
+.container{
+    max-width:100%;
+}
+
+.card{
+    margin:12px 0;
+}
+
+canvas{
+    max-width:100%;
+}
+
+@media(max-width:768px){
+
+    canvas{
+        max-height:260px;
+    }
+
 }
