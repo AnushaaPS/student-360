@@ -1567,21 +1567,26 @@ footer{
     }
 }
 
+.small-chart-container{
+    width:100%;
+    max-width:420px;
+    margin:auto;
+    position:relative;
+}
+
+.radar-container{
+    width:100%;
+    max-width:420px;
+    margin:auto;
+    position:relative;
+}
+
 canvas{
-    max-width:100% !important;
+    max-width:100%;
 }
 
 .chart-container{
     overflow-x:auto;
-}
-
-.small-chart-container,
-.radar-container{
-    width:100%;
-    max-width:420px;
-    height:420px;
-    margin:auto;
-    position:relative;
 }
 
 @media (max-width:768px){
@@ -1645,21 +1650,6 @@ canvas{
 
 @media(max-width:768px){
 
-    .chart-container,
-    .small-chart-container,
-    .radar-container{
-        max-width:300px;
-        height:300px;
-    }
-
-    canvas{
-        width:100% !important;
-        height:100% !important;
-    }
-}
-
-@media(max-width:768px){
-
     .dashboard-header{
 
         flex-direction:column;
@@ -1705,8 +1695,19 @@ canvas{
     }
 
     .recommendation-list li{
-        padding:12px;
-    }
+
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    padding:12px 15px;
+}
+
+.recommendation-list li::before{
+
+    position:static;
+    flex-shrink:0;
+    content:"•";
+}
 }
 
 @media (max-width:768px){
@@ -1719,15 +1720,6 @@ canvas{
         width:100% !important;
        max-height:300px;
     }
-}
-
-@media(max-width:768px){
-
-    .small-chart-container{
-        max-width:280px;
-        height:280px;
-    }
-
 }
 
 @media(max-width:768px){
@@ -1766,3 +1758,19 @@ canvas{
     }
 
 }
+
+.close-modal{
+
+    position:absolute;
+    top:15px;
+    right:20px;
+    font-size:28px;
+    color:#38bdf8;
+    cursor:pointer;
+    z-index:999999;
+}
+
+.student-modal-content{
+    position:relative;
+}
+
