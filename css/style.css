@@ -2423,3 +2423,19 @@ body.light-mode .calc-btn{
 
     color:#0f172a !important;
 }
+
+@media (max-width:768px){
+
+    .theme-toggle{
+
+        top:15px !important;
+
+        right:70px !important;
+
+        width:50px;
+        height:50px;
+
+        z-index:100000;
+    }
+
+}
