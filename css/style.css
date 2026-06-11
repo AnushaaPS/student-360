@@ -1977,3 +1977,19 @@ canvas{
     }
 
 }
+
+#studentDetailContent{
+    position:relative;
+    overflow:visible;
+}
+
+#studentDetailContent .card{
+    position:relative !important;
+    width:100% !important;
+}
+
+#studentDetailContent .grid{
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    gap:15px;
+}
